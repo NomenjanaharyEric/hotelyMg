@@ -18,25 +18,24 @@ class Hotel
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotNull]
+    #[Assert\NotNull()]
     #[Assert\Length(min:3, max:100)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotNull]
+    #[Assert\NotNull()]
     #[Assert\Length(min:3, max:100)]
     private ?string $adress = null;
 
     #[ORM\Column]
-    #[Assert\PositiveOrZero]
-    private ?int $startRating = null;
+    #[Assert\PositiveOrZero()]
+    private ?int $nbStar = null;
 
     #[ORM\Column]
-    #[Assert\DateTime]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotNull]
+    #[Assert\NotNull()]
     #[Assert\Length(min: 10)]
     private ?string $description = null;
 
@@ -74,14 +73,14 @@ class Hotel
         return $this;
     }
 
-    public function getStartRating(): ?int
+    public function getNbStar(): ?int
     {
-        return $this->startRating;
+        return $this->nbStar;
     }
 
-    public function setStartRating(int $startRating): self
+    public function setNbStar(int $nbStar): self
     {
-        $this->startRating = $startRating;
+        $this->nbStar = $nbStar;
 
         return $this;
     }

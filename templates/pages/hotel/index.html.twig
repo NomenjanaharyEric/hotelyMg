@@ -4,11 +4,18 @@
 
 {% block body %}
     <div class="container mt-3">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{message}}
+            </div>
+        {% endfor %}
         <h3 class="display-5">Tous les Hotels</h3>
         {# total items count #}
         <div class="count">
             <p>Il y a {{ hotels.getTotalItemCount }} hotels au total.</p>
+            <a href="{{ path('app_create_hotel') }}" class="btn btn-sm btn-success">Ajouter</a>
         </div>
+        <hr>
         <div class="row">
             {% for hotel in hotels %}
                 <div class="col-md-4">
@@ -19,7 +26,7 @@
                             <p class="card-text">{{ hotel.description }}</p>
                             <div class="d-flex justify-content-start">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-primary">Voir</button>
+                                    <a href="{{ path('app_show_hotel', {'id': hotel.id}) }}"class="btn btn-sm btn-primary">Voir</a>
                                 </div>
                             </div>
                         </div>

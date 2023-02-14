@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+{% block title %} HotelMg - modifier hotel {% endblock %}
+
+{% block body %}
+    <div class="container mt-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <h3>Formulaire de modification Hotel<h3>
+            <a href="{{ path('app_hotel') }}" class="btn btn-info">retour</a>
+        </div>
+        <hr>
+        {{ form(form) }}
+    </div>
+{% endblock %}

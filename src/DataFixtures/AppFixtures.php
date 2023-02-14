@@ -30,7 +30,7 @@ class AppFixtures extends Fixture
             $hotel
                 ->setName($this->faker->name())
                 ->setAdress($this->faker->address() )
-                ->setStartRating($this->faker->numberBetween(0,5))
+                ->setNbStar($this->faker->numberBetween(0,5))
                 ->setDescription($this->faker->paragraph())
                 ;
 

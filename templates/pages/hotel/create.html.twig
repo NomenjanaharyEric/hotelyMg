@@ -1,0 +1,13 @@
+{% extends "base.html.twig" %}
+
+{% block title %} HotelMg - Nouveau hotel {% endblock %}
+
+{% block body %}
+    <div class="container mt-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3>Création d'un nouveau hotel<h3>
+            <a href="{{ path('app_hotel') }}" class="btn btn-info">retour</a>
+        </div>
+        {{ form(form)}}
+    </div>
+{% endblock %}
