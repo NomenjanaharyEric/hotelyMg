@@ -10,12 +10,19 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class HotelType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('imageFile', VichImageType::class, [
+                "label" => "Photo",
+                "label_attr" => ["class" => "form-label"],
+                "attr" => ["class" => "form-control" ],
+                "required" => false
+            ])
             ->add('name', TextType::class, [
                 "label" => "Nom",
                 "label_attr" => ["class" => "form-label"],
