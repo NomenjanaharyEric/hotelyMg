@@ -5,7 +5,10 @@ namespace App\Entity;
 use App\Repository\HotelRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
+#[UniqueEntity("name")]
 #[ORM\Entity(repositoryClass: HotelRepository::class)]
 class Hotel
 {
@@ -15,18 +18,26 @@ class Hotel
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotNull]
+    #[Assert\Length(min:3, max:100)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotNull]
+    #[Assert\Length(min:3, max:100)]
     private ?string $adress = null;
 
     #[ORM\Column]
+    #[Assert\PositiveOrZero]
     private ?int $startRating = null;
 
     #[ORM\Column]
+    #[Assert\DateTime]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotNull]
+    #[Assert\Length(min: 10)]
     private ?string $description = null;
 
     public function getId(): ?int
