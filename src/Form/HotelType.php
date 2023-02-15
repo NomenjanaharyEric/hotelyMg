@@ -42,6 +42,7 @@ class HotelType extends AbstractType
             ->add('nbStar', RangeType::class, [
                 "label" => "Nombre d'etoiles",
                 "label_attr" => ["class" => "form-label"],
+                "attr" => ['min' => 0, 'max' => 5]
             ])
             ->add('description', TextareaType::class, [
                 "label" => "Description",
