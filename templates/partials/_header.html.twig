@@ -16,5 +16,12 @@
           <a class="nav-link" href="#">About</a>
         </li>
     </div>
+    <div>
+      {% if app.user %}
+        <a href="{{ path('app_security_logout') }}" class="btn btn-sm btn-warning"> Deconnexion</a>
+      {% else %}
+        <a href="{{ path('app_security_login') }}" class="btn btn-sm btn-info"> Connexion</a>
+      {% endif %}
+    </div>
   </div>
 </nav>
