@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Hotel;
+use App\Entity\Room;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -33,6 +34,22 @@ class AppFixtures extends Fixture
                 ->setNbStar($this->faker->numberBetween(0,5))
                 ->setDescription($this->faker->paragraph())
                 ;
+
+                for ($j=0; $j < mt_rand(3,8) ; $j++) { 
+                    $room = new Room();
+                    $room
+                        ->setNumber($this->faker->randomNumber(3))
+                        ->setName($this->faker->name())
+                        ->setSize($this->faker->numberBetween(20, 200))
+                        ->setLocation($this->faker->randomLetter() . ' - ' . $this->faker->address())
+                        ->setCapacity($this->faker->numberBetween(0,250))
+                        ->setPrice($this->faker->numberBetween(10000, 1000000))
+                        ->setDescription($this->faker->text(1000));
+                    
+                        $hotel->addRoom($room);
+
+                    $manager->persist($room);
+                }
 
             $manager->persist($hotel);
         }

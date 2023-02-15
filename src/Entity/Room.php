@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\RoomRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -45,6 +46,15 @@ class Room
     #[ORM\ManyToOne(inversedBy: 'rooms')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Hotel $hotel = null;
+
+    #[ORM\Column]
+    #[Assert\NotNull()]
+    #[Assert\Positive()]
+    private ?float $price = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank()]
+    private ?string $description = null;
 
     public function __construct()
     {
@@ -136,6 +146,30 @@ class Room
     public function setHotel(?Hotel $hotel): self
     {
         $this->hotel = $hotel;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
