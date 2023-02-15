@@ -6,7 +6,9 @@ use App\Repository\RoomRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 class Room
 {
@@ -55,6 +57,18 @@ class Room
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank()]
     private ?string $description = null;
+
+    #[Vich\UploadableField(mapping: 'rooms', fileNameProperty: 'imageName', size:'imageSize')]
+    private ?File $imageFile = null;
+
+    #[ORM\Column(nullable:true)]
+    private ?string $imageName = null;
+
+    #[ORM\Column(nullable:true)]
+    private ?string $imageSize = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
     {
@@ -172,5 +186,39 @@ class Room
         $this->description = $description;
 
         return $this;
+    }
+
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if(null !== $imageFile){
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageName(?string $imageName): void
+    {
+        $this->imageName = $imageName;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageSize(?int $imageSize): void
+    {
+        $this->imageSize = $imageSize;
+    }
+
+    public function getImageSize(): ?int
+    {
+        return $this->imageSize;
     }
 }
