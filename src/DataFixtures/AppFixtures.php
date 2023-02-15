@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Hotel;
 use App\Entity\Room;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -54,6 +55,20 @@ class AppFixtures extends Fixture
 
             $manager->persist($hotel);
         }
+
+        // Create 5 User
+        for ($i=0; $i < 5 ; $i++) { 
+            $user = new User();
+            $user
+                ->setFullname($this->faker->name())
+                ->setPseudo(mt_rand(0,1) === 1 ? $this->faker->firstName() : null)
+                ->setEmail($this->faker->email())
+                ->setRoles(['ROLE_USER'])
+                ->setPlainPassword("password")
+                ;
+            $manager->persist($user);
+        }
+
         $manager->flush();
     }
 }
