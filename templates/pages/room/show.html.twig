@@ -7,13 +7,55 @@
         <div class="alert alert-info">
             Chambre Information
         </div>
-        <div>
-            <a href="{{ path('app_update_room', {"id": room.id}) }}" class="btn btn-sm btn-success">Modifier</a>
-            <a href="{{ path('app_delete_room', {"id": room.id}) }}" class="btn btn-sm btn-danger">Supprimer</a>
+        <div class="d-flex justify-content-between">
+            <div>
+                <a href="{{ path('app_update_room', {"id": room.id}) }}" class="btn btn-sm btn-success">Modifier</a>
+                <a href="{{ path('app_delete_room', {"id": room.id}) }}" class="btn btn-sm btn-danger">Supprimer</a>
+            </div>
+            <div>
+                <a href="{{ path('app_room') }}" class="btn btn-sm btn-dark">retour</a>
+            </div>
         </div>
         <hr>
-        <h3>{{room.name}}</h3>
-        <p class="lead">{{room.description}}</p>
-        
+        <div class="row">
+            <div class="col-md-6">
+                <h4>{{room.hotel}} - Chambre information</h4>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td><strong>Numero</strong></td>
+                            <td>{{room.number}} </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nom</strong></td>
+                            <td>{{room.name}} </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Description</strong></td>
+                            <td>{{room.description}} </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Capacité</strong></td>
+                            <td>{{room.capacity}} personnes </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dimension</strong></td>
+                            <td>{{room.size}} m² </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Location</strong></td>
+                            <td>{{room.location}} m² </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Prix</strong></td>
+                            <td><span class='btn btn-sm btn-primary'>{{room.price | number_format(2, ",",".") }} Ariary </span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                Illustration du chambre
+            </div>
+        </div>        
     </div>
 {% endblock %}

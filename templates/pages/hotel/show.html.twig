@@ -7,9 +7,14 @@
         <div class="alert alert-info">
             Hotel Information
         </div>
-        <div>
-            <a href="{{ path('app_update_hotel', {"id": hotel.id}) }}" class="btn btn-sm btn-success">Modifier</a>
-            <a href="{{ path('app_delete_hotel', {"id": hotel.id}) }}" class="btn btn-sm btn-danger">Supprimer</a>
+        <div class="d-flex justify-content-between">
+            <div>
+                <a href="{{ path('app_update_hotel', {"id": hotel.id}) }}" class="btn btn-sm btn-success">Modifier</a>
+                <a href="{{ path('app_delete_hotel', {"id": hotel.id}) }}" class="btn btn-sm btn-danger">Supprimer</a>
+            </div>
+            <div>
+                <a href="{{ path('app_hotel') }}" class="btn btn-sm btn-dark">retour</a>
+            </div>
         </div>
         <hr>
         <h3>{{hotel.name}}</h3>
