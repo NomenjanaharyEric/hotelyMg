@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Room;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,10 +18,13 @@ class RoomType extends AbstractType
             ->add('size')
             ->add('location')
             ->add('capacity')
-            ->add('createdAt')
             ->add('price')
             ->add('description')
             ->add('hotel')
+            ->add('submit', SubmitType::class, [
+                "label" => "enregistrer",
+                "attr" => ["class" => "btn btn-primary"]
+            ])
         ;
     }
 

@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block title %}HotelMg - Chambre information{% endblock %}
+
+{% block body %}
+    <div class="container mt-3 pb-2">
+        <div class="alert alert-info">
+            Chambre Information
+        </div>
+        <div>
+            <a href="{{ path('app_update_room', {"id": room.id}) }}" class="btn btn-sm btn-success">Modifier</a>
+            <a href="{{ path('app_delete_room', {"id": room.id}) }}" class="btn btn-sm btn-danger">Supprimer</a>
+        </div>
+        <hr>
+        <h3>{{room.name}}</h3>
+        <p class="lead">{{room.description}}</p>
+        
+    </div>
+{% endblock %}
