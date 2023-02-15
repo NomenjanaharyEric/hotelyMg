@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\RoomRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 class Room
@@ -14,18 +15,28 @@ class Room
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotNull()]
+    #[Assert\Positive()]
     private ?string $number = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotNull()]
+    #[Assert\Length(min:3, max:100)]
     private ?string $name = null;
 
     #[ORM\Column]
+    #[Assert\Positive()]
+    #[Assert\NotNull()]
     private ?int $size = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotNull()]
+    #[Assert\Length(min:3, max:100)]
     private ?string $location = null;
 
     #[ORM\Column]
+    #[Assert\NotNull()]
+    #[Assert\Positive()]
     private ?int $capacity = null;
 
     #[ORM\Column]
