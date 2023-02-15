@@ -9,7 +9,7 @@
           </p>
           <p>
             {% if app.user is same as null %}
-              <a href="#" class="btn btn-primary my-2">Inscription</a>
+              <a href="{{ path('app_security_register')}}" class="btn btn-primary my-2">Inscription</a>
               <a href="{{ path('app_security_login')}}" class="btn btn-secondary my-2">Connexion</a>
             {% endif %}
             
