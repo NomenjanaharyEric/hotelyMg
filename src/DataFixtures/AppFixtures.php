@@ -32,9 +32,10 @@ class AppFixtures extends Fixture
                 ->setName($this->faker->name())
                 ->setAdress($this->faker->address() )
                 ->setNbStar($this->faker->numberBetween(0,5))
-                ->setDescription($this->faker->paragraph())
+                ->setDescription($this->faker->text(150))
                 ;
 
+                // Create 3 to 8 Room for each Hotel
                 for ($j=0; $j < mt_rand(3,8) ; $j++) { 
                     $room = new Room();
                     $room
@@ -44,7 +45,7 @@ class AppFixtures extends Fixture
                         ->setLocation($this->faker->randomLetter() . ' - ' . $this->faker->address())
                         ->setCapacity($this->faker->numberBetween(0,250))
                         ->setPrice($this->faker->numberBetween(10000, 1000000))
-                        ->setDescription($this->faker->text(1000));
+                        ->setDescription($this->faker->text(60));
                     
                         $hotel->addRoom($room);
 
