@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,6 +28,11 @@ class UserType extends AbstractType
             ])
             ->add('pseudo', TextType::class, [
                 "label" => "Pseudo",
+                "label_attr" => ["class" => "form-label"],
+                "attr" => ["class" => "form-control"]
+            ])
+            ->add('plainPassword', PasswordType::class, [
+                "label" => "Mot de passe",
                 "label_attr" => ["class" => "form-label"],
                 "attr" => ["class" => "form-control"]
             ])

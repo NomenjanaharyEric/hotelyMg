@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserPasswordType;
 use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
@@ -21,7 +23,7 @@ class UserController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function update(User $user, Request $request, EntityManagerInterface $manager): Response
+    public function update(User $user, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
     {
         if(!$this->getUser()){
             return $this->redirectToRoute("app_security_login", [], 301);
@@ -35,15 +37,57 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $user = $form->getData();
-            $manager->flush();
 
-            $this->addFlash("success", "Information Mis à Jour avec Succès");
+            if($hasher->isPasswordValid($user, $form->getData()->getPlainPassword())){
+                $user = $form->getData();
+                $manager->flush();
+    
+                return $this->redirectToRoute("app_show_user", ['id' => $this->getUser()->getId()], 301);
+            } else {
+                $this->addFlash("error", "Mot de passe invalide");
+            }
 
-            return $this->redirectToRoute("app_show_user", ['id' => $this->getUser()->getId()], 301);
         }
 
         return $this->render('pages/user/update.html.twig',[
+            "form" => $form->createView()
+        ]);
+    }
+
+
+    #[Route(path: "/utilisateur/{id}/modifier-mot-de-passe", name: "app_user_change_password", methods:["GET","POST"])]
+    /**
+     * This Methode Allow Us To Change User Password
+     *
+     * @param User $user
+     * @param Request $request
+     * @param UserPasswordHasherInterface $hasher
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    public function changePassword(User $user, Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager): Response
+    {
+        $form = $this->createForm(UserPasswordType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            if($hasher->isPasswordValid($user, $form->getData()['plainPassword']))
+            {
+                $newPassword = $form->getData()['newPassword'];
+
+                $user->setPlainPassword($newPassword);
+
+                $manager->persist($user);
+                $manager->flush();
+
+                return $this->redirectToRoute("app_show_user", ['id' => $user->getId()], 301);
+            } else {
+                $this->addFlash('error', 'Mot de passe Invalide');
+            }
+        }
+
+        return $this->render("pages/user/change_password.html.twig",[
             "form" => $form->createView()
         ]);
     }

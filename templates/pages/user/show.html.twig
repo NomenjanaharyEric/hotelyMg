@@ -24,6 +24,7 @@
                             <span> {{ user.email }} </span>
                         </div>
                         <a href="{{ path('app_update_user', {'id': user.id}) }}" class=" mt-3 btn btn-sm btn-primary">modifier</a>
+                        <a href="{{ path('app_user_change_password', {'id': user.id}) }}" class=" mt-3 btn btn-sm btn-danger">changer mot de passe</a>
                     </div>
                 </div>
             </div>
