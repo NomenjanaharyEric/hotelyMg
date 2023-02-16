@@ -76,7 +76,7 @@ class UserController extends AbstractController
             {
                 $newPassword = $form->getData()['newPassword'];
 
-                $user->setPlainPassword($newPassword);
+                $user->setPassword($hasher->hashPassword($user, $newPassword));
 
                 $manager->persist($user);
                 $manager->flush();
