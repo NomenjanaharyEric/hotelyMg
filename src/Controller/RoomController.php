@@ -28,7 +28,7 @@ class RoomController extends AbstractController
         $rooms = $paginator->paginate(
             $roomRepository->findAll(),
             $request->query->getInt("page", 1),
-            10
+            6
         );
         return $this->render('pages/room/index.html.twig', [
             "rooms" => $rooms

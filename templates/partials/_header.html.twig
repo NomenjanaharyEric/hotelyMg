@@ -18,6 +18,7 @@
     </div>
     <div>
       {% if app.user %}
+        <a href="{{ path('app_show_user', {"id": app.user.id }) }}" class="btn btn-sm btn-info"> Mon Profil</a>
         <a href="{{ path('app_security_logout') }}" class="btn btn-sm btn-warning"> Deconnexion</a>
       {% else %}
         <a href="{{ path('app_security_login') }}" class="btn btn-sm btn-info"> Connexion</a>
