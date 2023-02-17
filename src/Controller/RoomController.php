@@ -7,6 +7,7 @@ use App\Form\RoomType;
 use App\Repository\RoomRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class RoomController extends AbstractController
 {
     #[Route('/chambre', name: 'app_room', methods: ["GET"])]
+    #[IsGranted('ROLE_USER')]
     /**
      * This Methode Allow Us To Get All Rooms List with Pagination
      *
@@ -37,6 +39,7 @@ class RoomController extends AbstractController
     }
 
     #[Route(path: "/chambre/information/{id}", name: "app_show_room", methods: ["GET"])]
+    #[IsGranted('ROLE_USER')]
     /**
      * This Methode Allow Us To Get Room Information
      *
@@ -52,6 +55,7 @@ class RoomController extends AbstractController
     }
 
     #[Route(path: "/chambre/nouveau", name: "app_create_room", methods: ["GET", "POST"])]
+    #[IsGranted('ROLE_USER')]
     /**
      * This Methode Allow Us To Create New Room
      *
@@ -86,6 +90,7 @@ class RoomController extends AbstractController
     }
 
     #[Route(path: "/chambre/modifier/{id}", name: "app_update_room", methods: ["GET", "POST"])]
+    #[IsGranted('ROLE_USER')]
     /**
      * This Methode Allow Us To Update Room Information
      *
@@ -117,6 +122,7 @@ class RoomController extends AbstractController
     }
 
     #[Route(path: "/chambre/supprimer/{id}", name:"app_delete_room", methods: ["GET"])]
+    #[IsGranted('ROLE_USER')]
     /**
      * This Methode Allow Us To Delete Room
      *

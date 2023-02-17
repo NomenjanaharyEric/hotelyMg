@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +22,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route(path: "/deconnexion", name: "app_security_logout", methods:["GET"])]
     public function logout()
     {
