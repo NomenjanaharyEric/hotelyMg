@@ -25,8 +25,14 @@ class HotelController extends AbstractController
      */
     public function index(HotelRepository $hotelRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        if($this->getUser()){
+            $repository = $hotelRepository->findBy(['user' => $this->getUser()]);
+        }else{
+            $repository = $hotelRepository->findAll();
+        }
+        
         $hotels = $paginator->paginate(
-            $hotelRepository->findAll(),
+            $repository,
             $request->query->getInt("page", 1),
             9
         );
@@ -60,13 +66,14 @@ class HotelController extends AbstractController
     public function create(Request $request, EntityManagerInterface $manager): Response
     {
         $hotel = new Hotel();
+        $hotel->setUser($this->getUser());
+
         $form = $this->createForm(HotelType::class, $hotel);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
         {
             $hotel = $form->getData();
-
             $manager->persist($hotel);
             $manager->flush();
 

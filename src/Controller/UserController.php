@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserPasswordType;
 use App\Form\UserType;
+use App\Repository\HotelRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -99,10 +101,17 @@ class UserController extends AbstractController
      * @param User $user
      * @return Response
      */
-    public function show(User $user): Response
+    public function show(User $user, PaginatorInterface $paginator, Request $request, HotelRepository $hotelRepository): Response
     {
+        $hotels = $paginator->paginate(
+            $user->getHotels(),
+            $request->query->getInt("page", 1),
+            6
+        );
+
         return $this->render("pages/user/show.html.twig",[
-            "user" => $user
+            "user" => $user,
+            "hotels" => $hotels
         ]);
     }
 }
