@@ -14,9 +14,7 @@
         <div class="count">
             <p>Il y a {{ rooms.getTotalItemCount }} chambres au total.</p>
             
-            {% if app.user %}
-                <a href="{{ path('app_create_room') }}" class="btn btn-sm btn-success">Ajouter</a>
-            {% endif %}
+            <a href="{{ path('app_create_room') }}" class="btn btn-sm btn-success">Ajouter</a>
             
         </div>
         <hr>

@@ -4,17 +4,12 @@
 
 {% block body %}
     <div class="container mt-3 pb-2">
-        <div class="alert alert-info">
-            Hotel Information
-        </div>
         <div class="d-flex justify-content-between">
-            {% if app.user %}
-                <div>
-                    <a href="{{ path('app_update_hotel', {"id": hotel.id}) }}" class="btn btn-sm btn-success">Modifier</a>
-                    <a href="{{ path('app_delete_hotel', {"id": hotel.id}) }}" class="btn btn-sm btn-danger">Supprimer</a>
-                </div>
-            {% endif %}
-            
+            <div>
+                <a href="{{ path('app_update_hotel', {"id": hotel.id}) }}" class="btn btn-sm btn-success">Modifier</a>
+                <a href="{{ path('app_delete_hotel', {"id": hotel.id}) }}" class="btn btn-sm btn-danger">Supprimer</a>
+            </div>
+        
             <div>
                 <a href="{{ path('app_hotel') }}" class="btn btn-sm btn-dark">retour</a>
             </div>
