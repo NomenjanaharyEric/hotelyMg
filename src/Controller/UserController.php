@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     #[Route('/utilisateur/modifier/{id}', name: 'app_update_user', methods:["GET","POST"])]
-    #[Security("is_granted('ROLE_USER') and user === room.getUser() ")]
+    #[Security("is_granted('ROLE_USER') and user === currentUser ")]
     /**
      * This Methode Allow Us To Update User Information
      *
@@ -28,22 +28,22 @@ class UserController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function update(User $user, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
+    public function update(User $currentUser, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
     {
         if(!$this->getUser()){
             return $this->redirectToRoute("app_security_login", [], 301);
         }
 
-        if($this->getUser() !== $user){
+        if($this->getUser() !== $currentUser){
             return $this->redirectToRoute("app_home", [], 301);
         }
 
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $currentUser);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
 
-            if($hasher->isPasswordValid($user, $form->getData()->getPlainPassword())){
+            if($hasher->isPasswordValid($currentUser, $form->getData()->getPlainPassword())){
                 $user = $form->getData();
                 $manager->flush();
     
@@ -61,7 +61,7 @@ class UserController extends AbstractController
 
 
     #[Route(path: "/utilisateur/{id}/modifier-mot-de-passe", name: "app_user_change_password", methods:["GET","POST"])]
-    #[Security("is_granted('ROLE_USER') and user === room.getUser() ")]
+    #[Security("is_granted('ROLE_USER') and user === currentUser ")]
     /**
      * This Methode Allow Us To Change User Password
      *
@@ -71,23 +71,23 @@ class UserController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function changePassword(User $user, Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager): Response
+    public function changePassword(User $currentUser, Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager): Response
     {
         $form = $this->createForm(UserPasswordType::class);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
         {
-            if($hasher->isPasswordValid($user, $form->getData()['plainPassword']))
+            if($hasher->isPasswordValid($currentUser, $form->getData()['plainPassword']))
             {
                 $newPassword = $form->getData()['newPassword'];
 
-                $user->setPassword($hasher->hashPassword($user, $newPassword));
+                $currentUser->setPassword($hasher->hashPassword($currentUser, $newPassword));
 
-                $manager->persist($user);
+                $manager->persist($currentUser);
                 $manager->flush();
 
-                return $this->redirectToRoute("app_show_user", ['id' => $user->getId()], 301);
+                return $this->redirectToRoute("app_show_user", ['id' => $currentUser->getId()], 301);
             } else {
                 $this->addFlash('error', 'Mot de passe Invalide');
             }
@@ -99,23 +99,23 @@ class UserController extends AbstractController
     }
 
     #[Route(path: "/utilisateur/profil/{id}", name: "app_show_user", methods: ["GET"])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_USER') and user === currentUser ")]
     /**
      * This Methode Allow Us To Show User Information
      *
      * @param User $user
      * @return Response
      */
-    public function show(User $user, PaginatorInterface $paginator, Request $request, HotelRepository $hotelRepository): Response
+    public function show(User $currentUser, PaginatorInterface $paginator, Request $request): Response
     {
         $hotels = $paginator->paginate(
-            $user->getHotels(),
+            $currentUser->getHotels(),
             $request->query->getInt("page", 1),
             6
         );
 
         return $this->render("pages/user/show.html.twig",[
-            "user" => $user,
+            "user" => $currentUser,
             "hotels" => $hotels
         ]);
     }
