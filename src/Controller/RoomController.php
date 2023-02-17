@@ -25,8 +25,14 @@ class RoomController extends AbstractController
      */
     public function index(RoomRepository $roomRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        if($this->getUser()){
+            $repository = $roomRepository->findBy(['user' => $this->getUser()]);
+        }else{
+            $repository = $roomRepository->findAll();
+        }
+
         $rooms = $paginator->paginate(
-            $roomRepository->findAll(),
+            $repository,
             $request->query->getInt("page", 1),
             6
         );
@@ -60,8 +66,11 @@ class RoomController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $manager): Response
     {
+
         $room = new Room();
-        $form = $this->createForm(RoomType::class, $room);
+        $room->setUser($this->getUser());
+
+        $form = $this->createForm(RoomType::class, $room, ["user" => $this->getUser()]);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
@@ -92,7 +101,7 @@ class RoomController extends AbstractController
      */
     public function update(Room $room, Request $request, EntityManagerInterface $manager): Response
     {
-        $form = $this->createForm(RoomType::class, $room);
+        $form = $this->createForm(RoomType::class, $room, ["user" => $this->getUser()]);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())

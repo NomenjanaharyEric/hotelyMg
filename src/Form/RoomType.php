@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Hotel;
 use App\Entity\Room;
+use App\Repository\HotelRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -17,8 +18,13 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class RoomType extends AbstractType
 {
+
+    private $user;
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $this->user = $options['user'];
+
         $builder
             ->add('imageFile', VichImageType::class, [
                 "label" => "Photo",
@@ -70,6 +76,11 @@ class RoomType extends AbstractType
             ->add('hotel', EntityType::class, [
                 "class" => Hotel::class,
                 "label" => "Hotel",
+                "query_builder" => function (HotelRepository $hr){
+                    return $hr->createQueryBuilder('h')
+                        ->where('h.user = :user_id')
+                        ->setParameter('user_id', $this->user->getId());
+                },
                 "label_attr" => ["class" => "form-label"],
                 "attr" => ["class" => "form-control"]
             ])
@@ -84,6 +95,7 @@ class RoomType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Room::class,
+            "user" => null,
         ]);
     }
 }
