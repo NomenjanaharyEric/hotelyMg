@@ -26,6 +26,22 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+
+        $users = [];
+        // Create 5 User
+        for ($i=0; $i < 5 ; $i++) { 
+            $user = new User();
+            $user
+                ->setFullname($this->faker->name())
+                ->setPseudo(mt_rand(0,1) === 1 ? $this->faker->firstName() : null)
+                ->setEmail($this->faker->email())
+                ->setRoles(['ROLE_USER'])
+                ->setPlainPassword("password")
+                ;
+            $users[] = $user;
+            $manager->persist($user);
+        }
+
         // Create 10 entries for Hotel Entity
         for ($i=0; $i < 10; $i++) { 
             $hotel = new Hotel();
@@ -34,7 +50,10 @@ class AppFixtures extends Fixture
                 ->setAdress($this->faker->address() )
                 ->setNbStar($this->faker->numberBetween(0,5))
                 ->setDescription($this->faker->text(150))
+                ->setUser($users[mt_rand(0, count($users) -1)])
                 ;
+
+            
 
                 // Create 3 to 8 Room for each Hotel
                 for ($j=0; $j < mt_rand(3,8) ; $j++) { 
@@ -54,19 +73,6 @@ class AppFixtures extends Fixture
                 }
 
             $manager->persist($hotel);
-        }
-
-        // Create 5 User
-        for ($i=0; $i < 5 ; $i++) { 
-            $user = new User();
-            $user
-                ->setFullname($this->faker->name())
-                ->setPseudo(mt_rand(0,1) === 1 ? $this->faker->firstName() : null)
-                ->setEmail($this->faker->email())
-                ->setRoles(['ROLE_USER'])
-                ->setPlainPassword("password")
-                ;
-            $manager->persist($user);
         }
 
         $manager->flush();
