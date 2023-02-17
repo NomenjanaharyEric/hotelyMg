@@ -63,6 +63,10 @@ class Hotel
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\Column]
+    #[Assert\NotNull()]
+    private ?bool $isPublished = null;
+
 
     public function __construct()
     {
@@ -212,6 +216,18 @@ class Hotel
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function isIsPublished(): ?bool
+    {
+        return $this->isPublished;
+    }
+
+    public function setIsPublished(bool $isPublished): self
+    {
+        $this->isPublished = $isPublished;
 
         return $this;
     }

@@ -40,7 +40,6 @@ class HotelController extends AbstractController
     }
 
     #[Route(path:"/hotel/voir/{id}", name: "app_show_hotel", methods: ["GET"])]
-    #[IsGranted('ROLE_USER')]
     /**
      * This Methode Allow Us To Get Hotel Information
      *

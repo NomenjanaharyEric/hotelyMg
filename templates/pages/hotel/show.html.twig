@@ -4,6 +4,7 @@
 
 {% block body %}
     <div class="container mt-3 pb-2">
+    {% if app.user %}
         <div class="d-flex justify-content-between">
             <div>
                 <a href="{{ path('app_update_hotel', {"id": hotel.id}) }}" class="btn btn-sm btn-success">Modifier</a>
@@ -15,6 +16,8 @@
             </div>
         </div>
         <hr>
+    {% endif %}
+    
         <h3>{{hotel.name}}</h3>
         <p class="lead">{{hotel.description}}</p>
         <p class="lead">{{hotel.nbStar}} étoiles </p>

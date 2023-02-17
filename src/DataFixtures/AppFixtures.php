@@ -48,6 +48,7 @@ class AppFixtures extends Fixture
                     ->setNbStar($this->faker->numberBetween(0,5))
                     ->setDescription($this->faker->text(150))
                     ->setUser($user)
+                    ->setIsPublished( mt_rand(0,1) === 1 ? true : false )
                     ;
         
                 $manager->persist($hotel);
