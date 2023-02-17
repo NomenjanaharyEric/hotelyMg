@@ -25,14 +25,9 @@ class RoomController extends AbstractController
      */
     public function index(RoomRepository $roomRepository, Request $request, PaginatorInterface $paginator): Response
     {
-        if($this->getUser()){
-            $repository = $roomRepository->findBy(['user' => $this->getUser()]);
-        }else{
-            $repository = $roomRepository->findAll();
-        }
 
         $rooms = $paginator->paginate(
-            $repository,
+            $roomRepository->findBy(['user' => $this->getUser()]),
             $request->query->getInt("page", 1),
             6
         );

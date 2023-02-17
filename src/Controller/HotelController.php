@@ -25,14 +25,9 @@ class HotelController extends AbstractController
      */
     public function index(HotelRepository $hotelRepository, Request $request, PaginatorInterface $paginator): Response
     {
-        if($this->getUser()){
-            $repository = $hotelRepository->findBy(['user' => $this->getUser()]);
-        }else{
-            $repository = $hotelRepository->findAll();
-        }
         
         $hotels = $paginator->paginate(
-            $repository,
+            $hotelRepository->findBy(['user' => $this->getUser()]),
             $request->query->getInt("page", 1),
             9
         );
