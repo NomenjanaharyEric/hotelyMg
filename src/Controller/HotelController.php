@@ -8,6 +8,7 @@ use App\Repository\HotelRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -87,7 +88,7 @@ class HotelController extends AbstractController
     }
     
     #[Route(path: "/hotel/modifier-{id}", name:"app_update_hotel", methods: ["GET","POST"])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_USER') and user === hotel.getUser() ")]
     /**
      * This Methode Allow Us To Update Hotel
      *
@@ -117,7 +118,7 @@ class HotelController extends AbstractController
     }
 
     #[Route(path: "/hotel/supprimer/{id}", name:"app_delete_hotel", methods: ["GET"])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_USER') and user === hotel.getUser() ")]
     /**
      * This Methode Allow Us To Delete Hotel
      *

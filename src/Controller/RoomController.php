@@ -8,6 +8,7 @@ use App\Repository\RoomRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,7 +91,7 @@ class RoomController extends AbstractController
     }
 
     #[Route(path: "/chambre/modifier/{id}", name: "app_update_room", methods: ["GET", "POST"])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_USER') and user === room.getUser() ")]
     /**
      * This Methode Allow Us To Update Room Information
      *
@@ -122,7 +123,7 @@ class RoomController extends AbstractController
     }
 
     #[Route(path: "/chambre/supprimer/{id}", name:"app_delete_room", methods: ["GET"])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_USER') and user === room.getUser() ")]
     /**
      * This Methode Allow Us To Delete Room
      *

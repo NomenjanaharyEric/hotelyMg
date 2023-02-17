@@ -9,6 +9,7 @@ use App\Repository\HotelRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     #[Route('/utilisateur/modifier/{id}', name: 'app_update_user', methods:["GET","POST"])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_USER') and user === room.getUser() ")]
     /**
      * This Methode Allow Us To Update User Information
      *
@@ -60,7 +61,7 @@ class UserController extends AbstractController
 
 
     #[Route(path: "/utilisateur/{id}/modifier-mot-de-passe", name: "app_user_change_password", methods:["GET","POST"])]
-    #[IsGranted('ROLE_USER')]
+    #[Security("is_granted('ROLE_USER') and user === room.getUser() ")]
     /**
      * This Methode Allow Us To Change User Password
      *
