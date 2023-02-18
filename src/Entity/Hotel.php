@@ -72,6 +72,7 @@ class Hotel
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->rooms = new ArrayCollection();
+        $this->isPublished = false;
     }
 
     public function __toString(): string

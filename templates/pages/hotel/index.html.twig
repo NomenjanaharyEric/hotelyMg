@@ -35,6 +35,11 @@
                             <div class="d-flex justify-content-start">
                                 <div class="btn-group">
                                     <a href="{{ path('app_show_hotel', {'id': hotel.id}) }}"class="btn btn-sm btn-primary">Voir</a>
+
+                                    {% if not hotel.isPublished %}
+                                        <a href="{{ path('app_published_hotel', {'id': hotel.id}) }}"class="btn btn-sm btn-dark">Publier</a>
+                                    {% endif %}
+                                    
                                 </div>
                             </div>
                         </div>

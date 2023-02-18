@@ -53,6 +53,24 @@ class HotelController extends AbstractController
         ]);
     }
 
+    #[Route(path: "/hotel/publier/{id}", name: "app_published_hotel", methods: ["GET"])]
+    /**
+     * This Methode Allow Us To Published Hotel
+     *
+     * @param Hotel $hotel
+     * @return Response
+     */
+    public function publishedHotel(Hotel $hotel, EntityManagerInterface $manager): Response
+    {
+        $hotel->setIsPublished(true);
+
+        $manager->flush();
+
+        $this->addFlash("success", "Votre hotel a ete publier sur le site avec succes");
+
+        return $this->redirectToRoute("app_hotel", [], 301);
+    }
+
     #[Route(path: "/hotel/nouveau", name: "app_create_hotel", methods: ["GET", "POST"])]
     #[IsGranted('ROLE_USER')]
     /**
